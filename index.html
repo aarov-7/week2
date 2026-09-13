@@ -1,61 +1,120 @@
 <html>
   <head>
     <style>
+      body {
+        background-color: gray;
+        margin: 0;
+        padding: 24px;
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+      }
+
+      .faq {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .faq-item {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        background: darkgray;
+        padding: 20px;
+        border-radius: 10px;
+      }
+
       p {
         font-family: Verdana, Geneva, Tahoma, sans-serif;
         color: azure;
+        margin: 0;
       }
-      body {
-        background-color: black;
+
+      h3 {
+        font-family: Verdana, Geneva, Tahoma, sans-serif;
+        color: azure;
+        margin: 0;
       }
     </style>
   </head>
   <body>
-    <p>
-      Serverless architecture is a software design pattern where developers
-      build and run applications without having to manage, provision, or
-      maintain underlying hardware or server instances. Despite the name,
-      servers are still involved, the cloud provider entirely abstracts
-      infrastructure management, leaving developers free to focus strictly on
-      writing code. The primary advantage of serverless architecture is its
-      pay-per-use economic model, compute costs are measured down to the
-      millisecond of active execution time, dropping to zero when idle. This
-      eliminates the expense of over-provisioned infrastructure and enables
-      automatic scaling from zero to peak traffic.
-    </p>
+    <div class="faq">
+      <div class="faq-item">
+        <h3>
+          What would a mid-size company store to the Amazon Glacier? What not?
+          Why? What other large cloud backup or mass storage providers are
+          there?
+        </h3>
+        <p>
+          A mid-size company could use Amazon Glacier to store files that need
+          long term storage. These could include legal paperwork, system backups
+          and data archives. They would not store files that need to be updated
+          or checked on regularly. These could include active assets for
+          websites or live user databases. The company wouldn't use Amazon
+          Glacier for files that don't require long term storage, because moving
+          files from Glacier takes a long time and adds on to the otherwise low
+          costs. Other popular mass storage providers include Google Cloud
+          Storage and Microsoft Azure Blob Storage.
+        </p>
+      </div>
 
-    <p>
-      Desktop as a service and cloud based virtual desktop infrastructure
-      deliver virtualized operating systems, apps, and corporate data directly
-      to user devices over secure connections. By shifting the desktop
-      environment from local hardware to the cloud, organizations eliminate the
-      overhead of managing host servers while gaining complete operational
-      flexibility. The primary drivers for desktop as a service adoption are
-      security and workforce agility. Remote workers, contractors, and offshore
-      teams can securely access corporate systems from personal devices without
-      company data ever leaving the cloud.
-    </p>
+      <div class="faq-item">
+        <h3>
+          Compare some large web hosting / web hotel provider offerings (not
+          CDN)
+        </h3>
+        <p>
+          Hostinger has the lowest intro and renewal pricing with 13 data
+          centers globally. It's the most budget friendly option. Bluehost is
+          best for first time wordpress creators and contains highly detailed
+          guides on wordpress setup and onboarding. SiteGround is the costliest
+          but the fastest and most secure option targeted towards e-commerce and
+          agencies.
+        </p>
+      </div>
 
-    <p>
-      The benefits of infrastructure as code include it's rapid provisioning,
-      which lets you build complex cloud environments quickly using automated
-      script execution. And it's cost efficiency, version control and
-      reusability.
-    </p>
+      <div class="faq-item">
+        <h3>
+          Compare few cloud data storage provider features and pricing (either
+          for home users or for enterprises)
+        </h3>
+        <p>
+          Microsoft OneDrive has pricing options from a free 5gb to an up to six
+          person family plan with each person having one terabyte for a hundred
+          dollars a year. OneDrive includes native windows and Microsoft Office
+          integration. Google One includes 15gb of data with it's free plan and
+          up to 2tb of data with it's premium tier. It's easy to use on android
+          and contains seamless integration with google applications such as
+          gmail, docs and photos. Apple iCloud comes with a free 5gb of data up
+          to a 12tb option. It's best for iphone, ipad and mac users and
+          includes deep integration with iOS and macOS.
+        </p>
+      </div>
 
-    <p>
-      Microservices are an architectural style, while containers are a packaging
-      and deployment technology. Microservices break a monolithic application
-      down into smaller, independent, single purpose services that communicate
-      over their APIs. Application containers provide lightweight, isolated
-      runtime environments that package code alongside all its dependencies,
-      ensuring it runs consistently anywhere. While microservices don't need
-      containers, containers are the ideal vehicle for them since they allow
-      each independent microservice to be packaged, scaled, updated, and
-      deployed without affecting the rest of the application.
-    </p>
-    <a href="https://github.com/aarov-7/week2">
-      https://github.com/aarov-7/week2
-    </a>
+      <div class="faq-item">
+        <h3>
+          Describe reasons why so many (most?) companies are using cloud based
+          email and calendar services
+        </h3>
+        <p>
+          Modern organizations favor cloud-based email and calendar platforms
+          because they eliminate the costly and laborious burden of maintaining
+          their own server infrastructure. By adopting subscription-based
+          solutions like Microsofts 365 or Googles Workspace, businesses convert
+          large capital investments in physical hardware into predictable
+          operating expenses while gaining continuous access to
+          high-availability global data centers. These cloud environments
+          provide superior built-in cybersecurity, using automated threat
+          intelligence and multi-factor authentication to block sophisticated
+          phishing attacks and malware far more effectively than isolated
+          internal systems can. Furthermore, cloud platforms naturally support
+          flexible hybrid work environments by instantly synchronizing
+          schedules, contacts, and messages across mobile devices and remote
+          locations without complex network setups. Deep integration with
+          real-time video conferencing, cloud storage, and shared document tools
+          transforms basic email and calendar functionality into a centralized
+          collaboration hub that scales effortlessly as an organization grows.
+        </p>
+      </div>
+    </div>
   </body>
 </html>
