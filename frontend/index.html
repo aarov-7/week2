@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <style>
+      body {
+        font-family: sans-serif;
+        max-width: 600px;
+        margin: 60px auto;
+        text-align: center;
+      }
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+      .value {
+        font-weight: bold;
+        color: #2a6;
+      }
+    </style>
+  </head>
+  <body>
+    <p>mysql server time: <span class="value" id="time">loading…</span></p>
+    <p>
+      total visits recorded: <span class="value" id="visits">loading…</span>
+    </p>
+    <p>answered by backend pod: <span class="value" id="pod">–</span></p>
+
+    <p>version 1.0.1</p>
+
+    <button onclick="load()">Refresh</button>
+
+    <h3>Database persistence</h3>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20220643.png"
+    />
+    <p>Visits are currently 20</p>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20220826.png"
+    />
+    <p>The database pod gets deleted but pops back up seconds later</p>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20220908.png"
+    />
+    <p>The visits do not reset</p>
+
+    <h3>Pod recovery</h3>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221254.png"
+    />
+    <p>The backend pod gets deleted but a new one is automatically created</p>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221422.png"
+    />
+    <p>The site still works</p>
+    <p>
+      A new pod appears because kubernets continuously checks the pod count
+      against the desired count which in this case was set to 1. When I deleted
+      the pod the count dropped to 0 thus kubernets made a new one. Replicaset
+      is the one responsible for watching the pod count and recreating them.
+    </p>
+
+    <h3>Scaling</h3>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221624.png"
+    />
+    <p>
+      Scaled the pods to three (one of them is crashing but it doesn't matter
+      here)
+    </p>
+    <p>
+      The frontend doesn't need the ip, only the service's name, so it doesn't
+      care if there are multiple IPs
+    </p>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221852.png"
+    />
+    <p>Scaled it back to just one</p>
+
+    <h3>Application update</h3>
+    <img
+      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20222719.png"
+    />
+    <p>Made one small change to the application and updated the version</p>
+    <p>
+      While deploying new pods to rahti the new pods are created and start
+      running before the old ones are deleted
+    </p>
+
+    <h3>Problems</h3>
+    <p>
+      The biggest problem I ran into while doing this exercise was I forgot to
+      add name: to the ports in frontend service.
+    </p>
+
+    <h3>Rahti compared to docker + pouta deployment</h3>
+    <p>
+      Docker Compose assumes you are running a specific set of containers
+      together on a single machine. That means you are in charge of starting
+      them and figuring out how to handle data and configuration files yourself.
+    </p>
+    <p>
+      Rahti operates on a desired state model. The user tells the cluster how
+      their app should look, and it works continuously in the background to keep
+      it that way. If a container crashes Rahti automatically recreates the
+      users pods on its own.
+    </p>
+    <script>
+      async function load() {
+        try {
+          const timeRes = await fetch("/api/time");
+          const timeData = await timeRes.json();
+          document.getElementById("time").textContent = timeData.server_time;
+
+          const visitRes = await fetch("/api/visit");
+          const visitData = await visitRes.json();
+          document.getElementById("visits").textContent = visitData.visits;
+          document.getElementById("pod").textContent = visitData.pod;
+        } catch (err) {
+          document.getElementById("time").textContent = "error";
+          console.error(err);
+        }
+      }
+      load();
+    </script>
+  </body>
+</html>
