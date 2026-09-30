@@ -18,6 +18,11 @@ spec:
           ports:
             - containerPort: 8000
           env:
+            - name: REDIS_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: app-config
+                  key: REDIS_URL
             - name: DB_HOST
               valueFrom:
                 configMapKeyRef:

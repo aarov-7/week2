@@ -31,80 +31,52 @@
 
     <button onclick="load()">Refresh</button>
 
-    <h3>Database persistence</h3>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20220643.png"
-    />
-    <p>Visits are currently 20</p>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20220826.png"
-    />
-    <p>The database pod gets deleted but pops back up seconds later</p>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20220908.png"
-    />
-    <p>The visits do not reset</p>
-
-    <h3>Pod recovery</h3>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221254.png"
-    />
-    <p>The backend pod gets deleted but a new one is automatically created</p>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221422.png"
-    />
-    <p>The site still works</p>
+    <h3>
+      Explain the difference between SAML and OAuth. When would a company choose
+      on over the other?
+    </h3>
     <p>
-      A new pod appears because kubernets continuously checks the pod count
-      against the desired count which in this case was set to 1. When I deleted
-      the pod the count dropped to 0 thus kubernets made a new one. Replicaset
-      is the one responsible for watching the pod count and recreating them.
+      SAML is about authenticating the user and OAuth is about authorizing users
+      and applications. A company would pick SAML when it wants to enterprise
+      SSO of workforce access to SaaS tools or if their existing infrastructure
+      already speaks SAML. A company would pick OAuth when working with mobile
+      apps or when allowing users to log in using other services, for example
+      google or apple.
     </p>
-
-    <h3>Scaling</h3>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221624.png"
-    />
+    <h3>
+      What is a Web Application Firewall (WAF) and what kinds of attacks does it
+      defend against? Where would you place one in the three-container
+      architecture you built in Week 4 (Route -> frontend -> backend -> db)?
+    </h3>
     <p>
-      Scaled the pods to three (one of them is crashing but it doesn't matter
-      here)
+      A web application firewall is a security layer that inspects HTTPS traffic
+      at the application layer and blocks suspicious requests. WAF can defend
+      against SQL injections, command injections, app layer denial of service
+      attacks and bot traffic among others. I would put WAF in between the route
+      and frontend in my week 4 project.
     </p>
+    <h3>
+      Explain what a peer-to-peer VPN (for example n2n) is used for, and how it
+      differs from a traditional site-to-site VPN
+    </h3>
     <p>
-      The frontend doesn't need the ip, only the service's name, so it doesn't
-      care if there are multiple IPs
+      A peer to peer vpn connects the individual devices together rather than
+      connecting through a central vpn gateway. Computers on p2p vpns behave as
+      if they were on the same lan network. It differs from a traditional site
+      to site vpn via having the users connect directly to one another instead
+      of connecting through a vpn gateway.
     </p>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20221852.png"
-    />
-    <p>Scaled it back to just one </p>
-
-    <h3>Application update</h3>
-    <img
-      src="https://a3s.fi/cloudservices2026/N%C3%A4ytt%C3%B6kuva%202026-09-20%20222719.png"
-    />
-    <p>Made one small change to the application and updated the version</p>
+    <h3>
+      What is YAML and why has it become the default configuration format for
+      kubernetes/rahti manifests? Compare it briefly to JSON.
+    </h3>
     <p>
-      While deploying new pods to rahti the new pods are created and start
-      running before the old ones are deleted
-    </p>
-
-    <h3>Problems</h3>
-    <p>
-      The biggest problem I ran into while doing this exercise was I forgot to
-      add name: to the ports in frontend service.
-    </p>
-
-    <h3>Rahti compared to docker + pouta deployment</h3>
-    <p>
-      Docker Compose assumes you are running a specific set of containers
-      together on a single machine. That means you are in charge of starting
-      them and figuring out how to handle data and configuration files yourself.
-    </p>
-    <p>
-      Rahti operates on a desired state model. The user tells the cluster how
-      their app should look, and it works continuously in the background to keep
-      it that way. If a container crashes Rahti automatically recreates the
-      users pods on its own.
+      YAML is a human readable data serialization format. It represents the same
+      kind of data as JSON but is simpler to read. It became the default for
+      kubernetes/rahti due to it's readability, ability to leave comments and
+      support for multiple resources per file. YAML uses indentation such as
+      dashes, JSON uses braces and brackets. YAML has comments, JSON doesn't.
+      YAML is more complex and thus slower and less reliable than JSON.
     </p>
     <script>
       async function load() {

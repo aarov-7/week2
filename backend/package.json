@@ -5,6 +5,7 @@
   "type": "commonjs",
   "dependencies": {
     "express": "^4.19.2",
-    "mysql2": "^3.11.0"
+    "mysql2": "^3.11.0",
+    "redis": "^4.7.0"
   }
 }
