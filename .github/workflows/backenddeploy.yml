@@ -1,0 +1,64 @@
+name: build and deploy the backend
+
+on:
+  push:
+    branches: [main]
+    paths:
+      
+'backend/**'
+'.github/workflows/backend-deploy.yml'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    outputs:
+      image_tag: ${{ steps.vars.outputs.tag }}
+    steps:
+      
+name: Checkout code
+      uses: actions/checkout@v4
+
+      
+name: Set image tag
+      id: vars
+      run: echo "tag=${{ github.sha }}" >> "$GITHUB_OUTPUT"
+
+      
+name: Log in to Docker Hub
+      uses: docker/login-action@v3
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+      
+name: Build and push backend image
+      uses: docker/build-push-action@v6
+      with:
+        context: ./backend
+        push: true
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/lemp-backend:${{ steps.vars.outputs.tag }}
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      
+name: Install oc CLI
+      run: |
+        curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz -o oc.tar.gz
+        tar -xzf oc.tar.gz
+        sudo mv oc /usr/local/bin/
+        oc version --client
+
+      
+name: Log in to Rahti
+      run: oc login --token=${{ secrets.RAHTI_TOKEN }} --server=${{ secrets.RAHTI_SERVER }}
+
+      
+name: Deploy new image
+      run: |
+        oc set image deployment/backend backend=${{ secrets.DOCKERHUB_USERNAME }}/lemp-backend:${{ needs.build-and-push.outputs.image_tag }}
+
+      
+name: Wait for rollout to finish
+      run: oc rollout status deployment/backend --timeout=120s
