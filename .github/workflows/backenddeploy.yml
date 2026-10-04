@@ -44,6 +44,14 @@ jobs:
           sudo mv oc /usr/local/bin/
           oc version --client
 
+      - name: Debug server value
+        run: echo "Server length is ${#RAHTI_SERVER}"
+        env:
+          RAHTI_SERVER: ${{ secrets.RAHTI_SERVER }}
+
+      - name: Log in to Rahti
+        run: oc login --token=${{ secrets.RAHTI_TOKEN }} --server=${{ secrets.RAHTI_SERVER }}
+
       - name: login to rahti
         run: oc login --token=${{ secrets.RAHTI_TOKEN }} --server=${{ secrets.RAHTI_SERVER }}
 
