@@ -37,7 +37,7 @@ jobs:
     needs: build-and-push
     runs-on: ubuntu-latest
     steps:
-      - name: install oc
+      - name: install oc small change to show pod update lol
         run: |
           curl -L https://mirror.openshift.com/pub/openshift-v4/clients/ocp/stable/openshift-client-linux.tar.gz -o oc.tar.gz
           tar -xzf oc.tar.gz
