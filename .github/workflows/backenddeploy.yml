@@ -6,7 +6,7 @@ on:
     paths:
       
 'backend/**'
-'.github/workflows/backend-deploy.yml'
+'.github/workflows/backenddeploy.yml'
 
 jobs:
   build-and-push:
